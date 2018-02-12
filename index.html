@@ -1,0 +1,60 @@
+<!doctype html> 
+<html lang="en">
+<head>
+  <title>Memory Game</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="shortcut icon" href="memorygame04/images/img/appicon.ico" /> 
+  <link href="https://fonts.googleapis.com/css?family=Lato|Mukta+Malar" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">  
+  <link href="memorygame04/memorygame04.css" rel="stylesheet" type="text/css" />
+  
+  <script src="http://ryanhunter.org/portfolio/libs/angularjs/1.6/angular.min.js"></script>
+  <script src="http://ryanhunter.org/portfolio/libs/angularjs/1.6/angular-animate.min.js"></script>
+  <script src="memorygame04/memorygame04.js"></script>
+</head>
+
+<body ng-app="memorygame" ng-controller="AppController">
+	<header>
+		<button class="settings-button" ng-click="data.showSettings=!data.showSettings"><i class="zmdi zmdi-settings"></i></button>
+	</header>
+	<main ng-if="data.gameStarted" ng-cloak>
+		<div class="headline">
+			<h1>Memory Match Game</h1>
+			<h4>Difficulty : {{data.level}}</h4>
+			<h4>Moves : {{data.moves}}</h4>
+		</div>
+
+		<section class="row" ng-repeat="rows in data.tiles">
+			<figure class="tile" ng-repeat="tile in rows" ng-class="{loaded:tile.loaded, flipped:tile.flipped, paired:tile.paired}">
+				<div class="faces" ng-model="tile" tile>
+					<div class="back"></div>
+					<div class="front"><i class="zmdi zmdi-{{tile.icon}}"></i></div>
+				</div>
+			</figure>
+		</section>
+	</main>
+	<div class="backdrop" ng-class="{show:!data.gameStarted || data.showSettings, gameover:data.gameOver}">
+		<dialog>
+			<div class="score">
+				<h1>Game Over</h1>
+				<h4>You scored {{data.score}} points in {{data.moves}} moves!</h4>
+				<button ng-click="data.gameOver=false">Play Again</button>
+				
+				<p>
+				  <span class="returnHome">
+					<a ng-mousedown="func()" href="http://www.ryanhunter.org/"> Return Home </a>  
+				  </span>
+				</p>
+			</div>
+			<div class="settings">
+				<p>Choose Your Skill Level</p>
+				<button ng-click="service.startGame('easy')">Youngling</button>
+				<button ng-click="service.startGame('medium')">Padawan</button>
+				<button ng-click="service.startGame('hard')">Jedi Master</button>
+			</div>
+		</dialog>
+	</div>
+</body>
+</html>
